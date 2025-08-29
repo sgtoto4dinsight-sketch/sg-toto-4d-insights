@@ -1,35 +1,56 @@
-
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>SG Toto & 4D Insights</title>
-  </head>
-  <body>
-    <div id="root"></div>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SG Toto & 4D Insights</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-purple-500 to-indigo-600 text-white p-6">
+  <h1 class="text-3xl font-bold mb-4">🎉 SG Toto & 4D Insights 🎉</h1>
 
-    <!-- React + Babel from CDN -->
-    <script src="https://unpkg.com/react@17/umd/react.development.js"></script>
-    <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
-    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+  <div class="bg-white text-black rounded-2xl shadow-lg p-6 w-full max-w-md text-center">
+    <h2 class="text-xl font-semibold">Next Draw: 1 September 2025</h2>
+    <p class="text-lg">💰 Jackpot: SGD 3,000,000</p>
 
-    <!-- Your React Code -->
-    <script type="text/babel">
-      function App() {
-        return (
-          <div style={{ fontFamily: "Arial", padding: "20px" }}>
-            <h1>SG Toto & 4D Insights</h1>
-            <p>Next Draw: Coming Soon</p>
-            <p>Jackpot: SGD $$$</p>
-            <button onClick={() => alert("Predictions will appear here!")}>
-              Get Prediction
-            </button>
-          </div>
-        );
+    <button
+      onclick="generatePrediction()"
+      class="mt-6 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3 px-6 rounded-xl shadow-lg transition"
+    >
+      Get Lucky Pick
+    </button>
+
+    <div id="result" class="mt-6 hidden">
+      <h3 class="text-lg font-bold">Your Lucky Numbers ✨</h3>
+      <p class="mt-2 text-lg">4D: <span id="fourD" class="font-mono"></span></p>
+      <p class="mt-2 text-lg">Toto: <span id="toto"></span></p>
+    </div>
+  </div>
+
+  <footer class="mt-8 text-sm text-white/80">
+    ⚠️ Disclaimer: This site is for fun & educational purposes only.
+    No guarantee of winning numbers.
+  </footer>
+
+  <script>
+    function generatePrediction() {
+      // 4D number
+      const fourD = Math.floor(1000 + Math.random() * 9000);
+
+      // Toto numbers
+      const numbers = [];
+      while (numbers.length < 6) {
+        const n = Math.floor(1 + Math.random() * 49);
+        if (!numbers.includes(n)) numbers.push(n);
       }
+      numbers.sort((a, b) => a - b);
 
-      ReactDOM.render(<App />, document.getElementById("root"));
-    </script>
-  </body>
+      // Show result
+      document.getElementById("fourD").innerText = fourD;
+      document.getElementById("toto").innerText = numbers.join(", ");
+      document.getElementById("result").classList.remove("hidden");
+    }
+  </script>
+</body>
 </html>
