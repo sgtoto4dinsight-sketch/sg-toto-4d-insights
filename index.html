@@ -1,56 +1,140 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>SG Toto & 4D Insights</title>
-  <!-- Tailwind CSS -->
-  <script src="https://cdn.tailwindcss.com"></script>
-</head>
-<body class="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-purple-500 to-indigo-600 text-white p-6">
-  <h1 class="text-3xl font-bold mb-4">🎉 SG Toto & 4D Insights 🎉</h1>
+import React, { useState } from "react";
+import { Helmet } from "react-helmet";
+import { motion } from "framer-motion";
+import Confetti from "react-confetti";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
 
-  <div class="bg-white text-black rounded-2xl shadow-lg p-6 w-full max-w-md text-center">
-    <h2 class="text-xl font-semibold">Next Draw: 1 September 2025</h2>
-    <p class="text-lg">💰 Jackpot: SGD 3,000,000</p>
+export default function App() {
+  const [luckyNumbers, setLuckyNumbers] = useState([]);
+  const [fortune, setFortune] = useState("");
+  const [showConfetti, setShowConfetti] = useState(false);
+  const [spinResult, setSpinResult] = useState("");
 
-    <button
-      onclick="generatePrediction()"
-      class="mt-6 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3 px-6 rounded-xl shadow-lg transition"
-    >
-      Get Lucky Pick
-    </button>
+  const generateNumbers = () => {
+    const numbers = Array.from({ length: 6 }, () =>
+      Math.floor(Math.random() * 49) + 1
+    );
+    setLuckyNumbers(numbers);
+    setShowConfetti(true);
+    setTimeout(() => setShowConfetti(false), 3000);
+  };
 
-    <div id="result" class="mt-6 hidden">
-      <h3 class="text-lg font-bold">Your Lucky Numbers ✨</h3>
-      <p class="mt-2 text-lg">4D: <span id="fourD" class="font-mono"></span></p>
-      <p class="mt-2 text-lg">Toto: <span id="toto"></span></p>
+  const fortunes = [
+    "A big opportunity is coming your way.",
+    "Luck favors the bold!",
+    "Your patience will soon be rewarded.",
+    "A surprise win may brighten your day!",
+    "Believe in your lucky numbers."
+  ];
+
+  const getFortune = () => {
+    const f = fortunes[Math.floor(Math.random() * fortunes.length)];
+    setFortune(f);
+  };
+
+  const spinWheel = () => {
+    const results = ["Jackpot ✨", "Better Luck Next Time", "Small Win 🎉", "Lucky Boost 🍀"];
+    const result = results[Math.floor(Math.random() * results.length)];
+    setSpinResult(result);
+    setShowConfetti(true);
+    setTimeout(() => setShowConfetti(false), 3000);
+  };
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-purple-800 to-purple-500 text-white flex flex-col items-center p-4">
+      <Helmet>
+        <title>SG Toto & 4D Insights - Lucky Number Predictions</title>
+        <meta
+          name="description"
+          content="Get fun & entertainment-based predictions for Singapore Toto & 4D. Lucky numbers, spin wheel, fortune cookie & more. Not official Singapore Pools."
+        />
+        <meta
+          name="keywords"
+          content="Singapore Toto, 4D Prediction, Lucky Numbers, Spin Wheel, Horoscope, Lottery Fun"
+        />
+        <meta property="og:title" content="SG Toto & 4D Insights" />
+        <meta
+          property="og:description"
+          content="Lucky Number Generator, Spin Wheel, Fortune Cookie & More! For Fun & Entertainment Only."
+        />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://your-vercel-url.vercel.app/" />
+        <meta property="og:image" content="https://your-vercel-url.vercel.app/preview.png" />
+      </Helmet>
+
+      {showConfetti && <Confetti />}
+
+      <motion.h1
+        className="text-3xl md:text-5xl font-bold mb-4 text-center"
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+      >
+        SG Toto & 4D Insights
+      </motion.h1>
+
+      <p className="text-lg mb-6 text-center">
+        Fun & entertainment-based predictions ✨ <br />
+        (Not official Singapore Pools)
+      </p>
+
+      {/* Lucky Number Generator */}
+      <Card className="bg-purple-700 w-full max-w-md mb-4 rounded-2xl shadow-lg">
+        <CardContent className="p-4 text-center">
+          <h2 className="text-xl font-semibold mb-2">🎲 Lucky Number Generator</h2>
+          <Button onClick={generateNumbers} className="bg-white text-purple-700 font-bold">
+            Generate Numbers
+          </Button>
+          {luckyNumbers.length > 0 && (
+            <div className="mt-3 text-2xl font-bold">{luckyNumbers.join(" - ")}</div>
+          )}
+        </CardContent>
+      </Card>
+
+      {/* Fortune Cookie */}
+      <Card className="bg-purple-700 w-full max-w-md mb-4 rounded-2xl shadow-lg">
+        <CardContent className="p-4 text-center">
+          <h2 className="text-xl font-semibold mb-2">🥠 Fortune Cookie</h2>
+          <Button onClick={getFortune} className="bg-white text-purple-700 font-bold">
+            Crack Cookie
+          </Button>
+          {fortune && <p className="mt-3 text-lg">{fortune}</p>}
+        </CardContent>
+      </Card>
+
+      {/* Spin the Wheel */}
+      <Card className="bg-purple-700 w-full max-w-md mb-4 rounded-2xl shadow-lg">
+        <CardContent className="p-4 text-center">
+          <h2 className="text-xl font-semibold mb-2">🎡 Spin the Wheel</h2>
+          <Button onClick={spinWheel} className="bg-white text-purple-700 font-bold">
+            Spin
+          </Button>
+          {spinResult && <p className="mt-3 text-lg font-bold">{spinResult}</p>}
+        </CardContent>
+      </Card>
+
+      {/* Lucky Color & Day */}
+      <Card className="bg-purple-700 w-full max-w-md mb-4 rounded-2xl shadow-lg">
+        <CardContent className="p-4 text-center">
+          <h2 className="text-xl font-semibold mb-2">🌈 Lucky Color & Day</h2>
+          <p className="text-lg">Color: <span className="font-bold">Purple</span></p>
+          <p className="text-lg">Day: <span className="font-bold">Friday</span></p>
+        </CardContent>
+      </Card>
+
+      {/* Disclaimer */}
+      <p className="text-sm mt-6 text-center opacity-80">
+        Disclaimer: This site is for fun & entertainment only. <br />
+        We are not affiliated with Singapore Pools.
+      </p>
+
+      {/* Ticker */}
+      <div className="w-full bg-purple-900 text-white py-2 fixed bottom-0 overflow-hidden">
+        <marquee behavior="scroll" direction="left" scrollamount="5">
+          🎉 Welcome to SG Toto & 4D Insights | Lucky Numbers ✨ Spin the Wheel 🎡 Fortune Cookie 🥠
+          | Have Fun & Enjoy 🍀
+        </marquee>
+      </div>
     </div>
-  </div>
-
-  <footer class="mt-8 text-sm text-white/80">
-    ⚠️ Disclaimer: This site is for fun & educational purposes only.
-    No guarantee of winning numbers.
-  </footer>
-
-  <script>
-    function generatePrediction() {
-      // 4D number
-      const fourD = Math.floor(1000 + Math.random() * 9000);
-
-      // Toto numbers
-      const numbers = [];
-      while (numbers.length < 6) {
-        const n = Math.floor(1 + Math.random() * 49);
-        if (!numbers.includes(n)) numbers.push(n);
-      }
-      numbers.sort((a, b) => a - b);
-
-      // Show result
-      document.getElementById("fourD").innerText = fourD;
-      document.getElementById("toto").innerText = numbers.join(", ");
-      document.getElementById("result").classList.remove("hidden");
-    }
-  </script>
-</body>
-</html>
+  );
+}
